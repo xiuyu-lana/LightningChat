@@ -17,29 +17,31 @@ public class Server {
 
     public void run() throws IOException {
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
-        socket.receive(packet); // use a new DatagramPacket obj to receive the data.
+        while(true){
+            socket.receive(packet); // use a new DatagramPacket obj to receive the data.
 
-        InetAddress address = packet.getAddress(); // get the address of the sender.
-        int port = packet.getPort(); // get the port of the sender.
-
-
-        String received = new String(packet.getData(), 0, packet.getLength());
-        // convert bytes data to string.
-        System.out.println("Received msg: " + received);
-        // print.
-
-        String reply = "Howdy! Client";
-        // string message to send back.
-        byte[] replyBuffer = reply.getBytes();
-        //convert to bytes before sending.
-        DatagramPacket packetToReply = new DatagramPacket(replyBuffer, replyBuffer.length, address, port);
-        // use a new DatagramPacket obj to store the data.
-        socket.send(packetToReply);
-        // send the message back to the sender
+            InetAddress address = packet.getAddress(); // get the address of the sender.
+            int port = packet.getPort(); // get the port of the sender.
 
 
-        System.out.println("Server is closed.");
-        socket.close();
+            String received = new String(packet.getData(), 0, packet.getLength());
+            // convert bytes data to string.
+            System.out.println("Received msg: " + received);
+            // print.
+
+            String reply = "Howdy! Client";
+            // string message to send back.
+            byte[] replyBuffer = reply.getBytes();
+            //convert to bytes before sending.
+            DatagramPacket packetToReply = new DatagramPacket(replyBuffer, replyBuffer.length, address, port);
+            // use a new DatagramPacket obj to store the data.
+            socket.send(packetToReply);
+            // send the message back to the sender
+        }
+
+
+//        System.out.println("Server is closed.");
+//        socket.close();
     }
 
     public static void main(String[] args) {
