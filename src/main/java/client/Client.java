@@ -21,15 +21,16 @@ public class Client {
     }
 
     public void sendHello() throws IOException {
-        String msg = "hello, server!";
-        byte[] buffer = msg.getBytes();
+        String msg = "Howdy, server!";
+        byte[] sendBuffer = msg.getBytes();
+        byte[] receiveBuffer = msg.getBytes();
         // Network only allow bytes to go through.
         // All objects/information need to be converted to bytes before sending.
 
-        DatagramPacket packetToSend = new DatagramPacket(buffer, buffer.length, address, serverPort);
+        DatagramPacket packetToSend = new DatagramPacket(sendBuffer, sendBuffer.length, address, serverPort);
         socket.send(packetToSend); // send to server
 
-        DatagramPacket packetToReceive = new DatagramPacket(buffer, buffer.length);
+        DatagramPacket packetToReceive = new DatagramPacket(receiveBuffer, receiveBuffer.length);
         // we need a new packet obj to accommodate the data from server.
 
         socket.receive(packetToReceive); // use the new object above to receive the message from the server.

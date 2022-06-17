@@ -28,7 +28,7 @@ public class Server {
         System.out.println("Received msg: " + received);
         // print.
 
-        String reply = "Hello, Client!";
+        String reply = "Howdy! Client";
         // string message to send back.
         byte[] replyBuffer = reply.getBytes();
         //convert to bytes before sending.
