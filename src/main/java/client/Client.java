@@ -71,8 +71,15 @@ public class Client {
         try {
 //            client.sendHello();
             Scanner sc = new Scanner(System.in);
+            while(true) {
+                String msg = sc.nextLine();
+                client.sendMessage(msg);
+                if(msg.equals("quit")) {
+                    break;
+                }
+            }
+            System.out.println("Chat has been closed");
 
-            client.sendMessage(sc.nextLine());
         } catch (IOException e) {
             e.printStackTrace();
         }

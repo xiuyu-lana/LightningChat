@@ -30,6 +30,11 @@ public class Server {
             // print.
 
             String reply = "Howdy! Client";
+
+            if(received.equals("quit")) {
+                reply = "Bye!";
+            }
+
             // string message to send back.
             byte[] replyBuffer = reply.getBytes();
             //convert to bytes before sending.
@@ -37,11 +42,16 @@ public class Server {
             // use a new DatagramPacket obj to store the data.
             socket.send(packetToReply);
             // send the message back to the sender
+
+            if(received.equals("quit")) {
+                System.out.println("Server is closed.");
+                socket.close();
+                break;
+            }
         }
 
 
-//        System.out.println("Server is closed.");
-//        socket.close();
+
     }
 
     public static void main(String[] args) {
