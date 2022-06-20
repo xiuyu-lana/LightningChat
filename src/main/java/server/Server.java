@@ -33,6 +33,8 @@ public class Server {
 
             if(received.equals("quit")) {
                 reply = "Bye!";
+            } else if (received.equals("[smile]")) {
+                reply = "^_^";
             }
 
             // string message to send back.
