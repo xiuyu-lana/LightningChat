@@ -2,6 +2,7 @@ package client;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.Scanner;
 
 public class Client {
     private DatagramSocket socket;
@@ -22,8 +23,20 @@ public class Client {
 
     public void sendHello() throws IOException {
         String msg = "Howdy, server!";
+        sendMessage(msg);
+    }
+
+
+
+    public void close() {
+        // call this function to close the socket. Then another process can re-use the port.
+        // there are totally 65535 ports in each computer.
+        socket.close();
+    }
+
+    public void sendMessage(String msg) throws IOException {
         byte[] sendBuffer = msg.getBytes();
-        byte[] receiveBuffer = msg.getBytes();
+        byte[] receiveBuffer = new byte[255];
         // Network only allow bytes to go through.
         // All objects/information need to be converted to bytes before sending.
 
@@ -38,18 +51,12 @@ public class Client {
         // if a hacker sends the message before the server sends to you, you will receive the hacker's message.
         // But eventually you can decide if you want to ignore it or not.
 
-        String receivedStr = new String(packetToSend.getData(), 0, packetToSend.getLength());
+        String receivedStr = new String(packetToReceive.getData(), 0, packetToReceive.getLength());
         // after you receive the message, you can use `getData` to extract it. But it is also `bytes`. So convert it back to what you want.
         // in this case, you need String.
 
         System.out.println("Reply from the server:"+receivedStr);
         // print
-    }
-
-    public void close() {
-        // call this function to close the socket. Then another process can re-use the port.
-        // there are totally 65535 ports in each computer.
-        socket.close();
     }
 
     public static void main(String[] args) {
@@ -62,7 +69,10 @@ public class Client {
         }
 
         try {
-            client.sendHello();
+//            client.sendHello();
+            Scanner sc = new Scanner(System.in);
+
+            client.sendMessage(sc.nextLine());
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -6,7 +6,7 @@ import java.net.*;
 public class Server {
     private DatagramSocket socket;
     private InetAddress address; // If we want to send message within the computer, we only need one common address.
-    private byte[] buf = new byte[256];
+    private byte[] receiveBuf = new byte[256];
     private int serverPort = 8889;
 
     public Server() throws SocketException, UnknownHostException {
@@ -16,7 +16,7 @@ public class Server {
     }
 
     public void run() throws IOException {
-        DatagramPacket packet = new DatagramPacket(buf, buf.length);
+        DatagramPacket packet = new DatagramPacket(receiveBuf, receiveBuf.length);
         while(true){
             socket.receive(packet); // use a new DatagramPacket obj to receive the data.
 
