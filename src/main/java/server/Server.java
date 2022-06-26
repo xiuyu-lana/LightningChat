@@ -6,22 +6,24 @@ import utils.*;
 
 public class Server {
     private DatagramSocket socket;
-    private InetAddress address; // If we want to send message within the computer, we only need one common address.
-    private byte[] receiveBuf = new byte[256];
-    private int serverPort = 8889;
-    private int clientPort = 8888;
-    int count = 0;
+    private InetAddress targetAddress; // If we want to send message within the computer, we only need one common address.
+    private InetAddress myAddress;
+    private int myPort = 8889;
+    private int targetPort = 8888;
 
     public Server() throws SocketException, UnknownHostException {
-        address = InetAddress.getByName("127.0.0.1"); //get the corresponding InetAddress object by ip.
-        socket = new DatagramSocket(serverPort, address);
+        // Client Constructor
+        myAddress = InetAddress.getByName("192.168.0.112"); //get the corresponding InetAddress object by ip.
+        targetAddress = InetAddress.getByName("192.168.0.112");
+        socket = new DatagramSocket(myPort, myAddress); // binds client's socket to the client's ip and port.
+        // after this, the port in owned by this process only.
     }
 
     public void start(){
         Receiver re = new Receiver(socket);
         re.start();
 
-        Sender se = new Sender(socket, address, clientPort);
+        Sender se = new Sender(socket, targetAddress, targetPort);
         se.start();
     }
 
