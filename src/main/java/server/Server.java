@@ -19,15 +19,18 @@ public class Server {
         // after this, the port in owned by this process only.
     }
 
-    public void start(){
+    public void start() throws InterruptedException {
         Receiver re = new Receiver(socket);
         re.start();
 
+
         Sender se = new Sender(socket, targetAddress, targetPort);
         se.start();
+
+        re.join();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Server server;
         try {
             server = new Server();
@@ -37,5 +40,6 @@ public class Server {
         }
 
         server.start();
+        System.exit(0);
     }
 }

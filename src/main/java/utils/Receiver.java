@@ -30,9 +30,11 @@ public class Receiver extends Thread{
             // after you receive the message, you can use `getData` to extract it. But it is also `bytes`. So convert it back to what you want.
             // in this case, you need String.
 
-//            if(receivedStr.equals("quit")) {
-//                break;
-//            }
+            if(receivedStr.equals("quit")) {
+                System.out.println("Chat has been closed");
+                socket.close();
+                break;
+            }
             System.out.println("Message from " + packetToReceive.getPort() + ": "+ receivedStr);
             // print
         }

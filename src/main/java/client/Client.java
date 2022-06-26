@@ -28,18 +28,21 @@ public class Client {
         // after this, the port in owned by this process only.
     }
 
-    public void start(){
+    public void start() throws InterruptedException {
         Receiver re = new Receiver(socket);
         re.start();
 
         Sender se = new Sender(socket, targetAddress, targetPort);
         se.start();
+
+        re.join();
     }
 
 
 
 
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws InterruptedException {
         Client client = null;
         try {
             client = new Client();
@@ -49,6 +52,7 @@ public class Client {
         }
 
         client.start();
+        System.exit(0);
     }
 }
 
