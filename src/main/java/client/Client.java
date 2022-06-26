@@ -21,8 +21,7 @@ public class Client {
 
     public Client() throws SocketException, UnknownHostException {
         // Client Constructor
-        byte[] ipAddr = new byte[]{127, 0, 0, 1}; // 127.0.0.1 is the localhost and can be used for processes' communications.
-        address = InetAddress.getByAddress(ipAddr); //get the corresponding InetAddress object by ip.
+        address = InetAddress.getByName("127.0.0.1"); //get the corresponding InetAddress object by ip.
         socket = new DatagramSocket(clientPort, address); // binds client's socket to the client's ip and port.
         // after this, the port in owned by this process only.
     }

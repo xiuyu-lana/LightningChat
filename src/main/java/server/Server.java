@@ -13,8 +13,7 @@ public class Server {
     int count = 0;
 
     public Server() throws SocketException, UnknownHostException {
-        byte[] ipAddr = new byte[]{127, 0, 0, 1}; // 127.0.0.1 is the localhost and can be used for processes' communications.
-        address = InetAddress.getByAddress(ipAddr); //get the corresponding InetAddress object by ip.
+        address = InetAddress.getByName("127.0.0.1"); //get the corresponding InetAddress object by ip.
         socket = new DatagramSocket(serverPort, address);
     }
 
