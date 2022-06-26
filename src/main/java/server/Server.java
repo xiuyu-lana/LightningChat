@@ -2,12 +2,14 @@ package server;
 
 import java.io.IOException;
 import java.net.*;
+import utils.*;
 
 public class Server {
     private DatagramSocket socket;
     private InetAddress address; // If we want to send message within the computer, we only need one common address.
     private byte[] receiveBuf = new byte[256];
     private int serverPort = 8889;
+    private int clientPort = 8888;
     int count = 0;
 
     public Server() throws SocketException, UnknownHostException {
@@ -16,52 +18,12 @@ public class Server {
         socket = new DatagramSocket(serverPort, address);
     }
 
-    public void run() throws IOException {
-        DatagramPacket packet = new DatagramPacket(receiveBuf, receiveBuf.length);
-        while(true){
-            socket.receive(packet); // use a new DatagramPacket obj to receive the data.
-            count++;
+    public void start(){
+        Receiver re = new Receiver(socket);
+        re.start();
 
-            InetAddress address = packet.getAddress(); // get the address of the sender.
-            int port = packet.getPort(); // get the port of the sender.
-
-
-            String received = new String(packet.getData(), 0, packet.getLength());
-            // convert bytes data to string.
-            System.out.println("Received msg: " + received);
-            // print.
-
-
-            if(received.equals("quit")) {
-                send("Bye!", address, port);
-                System.out.println("Server is closed.");
-                socket.close();
-                break;
-            } else if(count % 3 == 0) {
-                send("yes", address, port);
-                send("I know", address, port);
-                send("this is 3n", address, port);
-            } else if (received.equals("[smile]")) {
-                send("^_^", address, port);
-            } else {
-                send("Howdy! Client", address, port);
-            }
-
-
-        }
-
-
-
-    }
-
-    // send the message back to the sender
-    private void send(String msg, InetAddress address, int port)  throws IOException{
-        // string message to send back.
-        byte[] replyBuffer = msg.getBytes();
-        //convert to bytes before sending.
-        DatagramPacket packetToReply = new DatagramPacket(replyBuffer, replyBuffer.length, address, port);
-        // use a new DatagramPacket obj to store the data.
-        socket.send(packetToReply);
+        Sender se = new Sender(socket, address, clientPort);
+        se.start();
     }
 
     public static void main(String[] args) {
@@ -73,11 +35,6 @@ public class Server {
             return;
         }
 
-        try {
-            server.run();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
+        server.start();
     }
 }
