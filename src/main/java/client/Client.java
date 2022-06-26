@@ -1,10 +1,8 @@
 package client;
 
-import java.io.IOException;
 import java.net.*;
 import utils.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
+
 
 
 public class Client {
