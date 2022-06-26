@@ -2,6 +2,7 @@ package client;
 
 import java.io.IOException;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class Client {
@@ -13,12 +14,16 @@ public class Client {
     private int clientPort = 8888; // This is the source port.
     private int serverPort = 8889; // This is the destination port.
 
+
+
+
     public Client() throws SocketException, UnknownHostException {
         // Client Constructor
         byte[] ipAddr = new byte[]{127, 0, 0, 1}; // 127.0.0.1 is the localhost and can be used for processes' communications.
         address = InetAddress.getByAddress(ipAddr); //get the corresponding InetAddress object by ip.
         socket = new DatagramSocket(clientPort, address); // binds client's socket to the client's ip and port.
         // after this, the port in owned by this process only.
+
     }
 
     public void sendHello() throws IOException {
@@ -36,28 +41,14 @@ public class Client {
 
     public void sendMessage(String msg) throws IOException {
         byte[] sendBuffer = msg.getBytes();
-        byte[] receiveBuffer = new byte[255];
         // Network only allow bytes to go through.
         // All objects/information need to be converted to bytes before sending.
 
         DatagramPacket packetToSend = new DatagramPacket(sendBuffer, sendBuffer.length, address, serverPort);
         socket.send(packetToSend); // send to server
 
-        DatagramPacket packetToReceive = new DatagramPacket(receiveBuffer, receiveBuffer.length);
-        // we need a new packet obj to accommodate the data from server.
-
-        socket.receive(packetToReceive); // use the new object above to receive the message from the server.
-        // Actually `receive` method is listening to the port,
-        // if a hacker sends the message before the server sends to you, you will receive the hacker's message.
-        // But eventually you can decide if you want to ignore it or not.
-
-        String receivedStr = new String(packetToReceive.getData(), 0, packetToReceive.getLength());
-        // after you receive the message, you can use `getData` to extract it. But it is also `bytes`. So convert it back to what you want.
-        // in this case, you need String.
-
-        System.out.println("Reply from the server:"+receivedStr);
-        // print
     }
+
 
     public static void main(String[] args) {
         Client client = null;
@@ -67,6 +58,9 @@ public class Client {
             e.printStackTrace();
             return;
         }
+
+        Receiver re = new Receiver(client.socket);
+        re.start();
 
         try {
 //            client.sendHello();
@@ -85,5 +79,40 @@ public class Client {
         }
 
         client.close();
+    }
+}
+
+class Receiver extends Thread{
+    byte[] receiveBuffer = new byte[255];
+    DatagramSocket socket;
+    public Receiver(DatagramSocket socket){
+        this.socket = socket;
+    }
+    @Override
+    public void run() {
+        DatagramPacket packetToReceive = new DatagramPacket(receiveBuffer, receiveBuffer.length);
+        // we need a new packet obj to accommodate the data from server.
+
+        while (true){
+            try {
+                socket.receive(packetToReceive); // use the new object above to receive the message from the server.
+            } catch (IOException e) {
+//                e.printStackTrace();
+                break;
+            }
+            // Actually `receive` method is listening to the port,
+            // if a hacker sends the message before the server sends to you, you will receive the hacker's message.
+            // But eventually you can decide if you want to ignore it or not.
+
+            String receivedStr = new String(packetToReceive.getData(), 0, packetToReceive.getLength());
+            // after you receive the message, you can use `getData` to extract it. But it is also `bytes`. So convert it back to what you want.
+            // in this case, you need String.
+
+//            if(receivedStr.equals("quit")) {
+//                break;
+//            }
+            System.out.println("Reply from the server:" + receivedStr);
+            // print
+        }
     }
 }
