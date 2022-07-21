@@ -1,0 +1,6 @@
+{
+  "myAddress" : "10.20.146.135",
+  "targetAddress" : "10.20.146.135",
+  "myPort" : "8889",
+  "targetPort" : "8888"
+}

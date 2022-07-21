@@ -1,0 +1,22 @@
+<component name="libraryTable">
+  <library name="java">
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/libs/json-simple/branches/mavenization/src/main/java" />
+      <root url="file://$PROJECT_DIR$/libs/json-simple/branches/mavenization/src/test/java" />
+      <root url="file://$PROJECT_DIR$/libs/json-simple/tags/tag_candidate_1_1/src" />
+      <root url="file://$PROJECT_DIR$/libs/json-simple/tags/tag_candidate_1_1/test" />
+      <root url="file://$PROJECT_DIR$/libs/json-simple/tags/tag_release_1_0_1/src" />
+      <root url="file://$PROJECT_DIR$/libs/json-simple/tags/tag_release_1_0_1/test" />
+      <root url="file://$PROJECT_DIR$/libs/json-simple/tags/tag_release_1_0_2/src" />
+      <root url="file://$PROJECT_DIR$/libs/json-simple/tags/tag_release_1_0_2/test" />
+      <root url="file://$PROJECT_DIR$/libs/json-simple/tags/tag_release_1_1/src" />
+      <root url="file://$PROJECT_DIR$/libs/json-simple/tags/tag_release_1_1/test" />
+      <root url="file://$PROJECT_DIR$/libs/json-simple/tags/tag_release_1_1_1/src/main/java" />
+      <root url="file://$PROJECT_DIR$/libs/json-simple/tags/tag_release_1_1_1/src/test/java" />
+      <root url="file://$PROJECT_DIR$/libs/json-simple/trunk/src/main/java" />
+      <root url="file://$PROJECT_DIR$/libs/json-simple/trunk/src/test/java" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,6 +1,13 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.*;
-import utils.*;
 
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import utils.*;
+import java.io.FileReader;
+import org.json.simple.*;
+//import org.json.*;
 public class LightningChat {
     private DatagramSocket socket;
     private InetAddress targetAddress; // If we want to send message within the computer, we only need one common address.
@@ -28,8 +35,18 @@ public class LightningChat {
     }
 
     public static void main(String[] args)
-            throws InterruptedException, SocketException, UnknownHostException {
-        LightningChat lc = new LightningChat(args[0], args[1], args[2], args[3]);
+            throws InterruptedException, IOException, ParseException {
+        JSONParser parser = new JSONParser();
+        JSONObject obj = (JSONObject) parser.parse(new FileReader(args[0]));
+        String myAdd = (String) obj.get("myAddress");
+        String targetAdd = (String) obj.get("targetAddress");
+        String myPort = (String) obj.get("myPort");
+        String targetPort = (String) obj.get("targetPort");
+        System.out.println(myAdd);
+        System.out.println(targetAdd);
+        System.out.println(myPort);
+        System.out.println(targetPort);
+        LightningChat lc = new LightningChat(myAdd, targetAdd, myPort, targetPort);
         lc.start();
 
         System.exit(0);
