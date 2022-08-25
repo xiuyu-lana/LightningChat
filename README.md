@@ -1,3 +1,1 @@
-new
-new line
-This is a project of Xiuyu Tang.
+A CLI tool to send messages between clients
